@@ -19,7 +19,7 @@ testOutputNorm = mapminmax('apply', testOutput, outputPS);
 
 %% 神经网络训练
 %定义BP前馈神经网络
-net_predict = newff(trainInputNorm,trainOutputNorm,5,{'tansig','tansig'},'traingd');
+net_predict = newff(trainInputNorm,trainOutputNorm,5,{'tansig','tansig'},'trainlm');
 %网络参数的设置
 net_predict.trainParam.epochs = 20000;  %训练次数设置
 net_predict.trainParam.goal = 0.01;  %训练目标设置
