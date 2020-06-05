@@ -5,9 +5,9 @@ filename = "data.xlsx";
 
 % 划分输入数据与输出数据，并转置，用于归一化
 trainInput = trainData(:, 1: 9)';
-trainOutput = trainData(:, 10: 12)';
+trainOutput = trainData(:, 10: 11)';
 testInput = testData(:, 1: 9)';
-testOutput = testData(:, 10: 12)';
+testOutput = testData(:, 10: 11)';
 
 % 数据归一化
 [input, inputPS] = mapminmax(trainInput);
