@@ -6,19 +6,19 @@ function [trainData, testData] = dataPreprocess(filename)
 data = xlsread(filename);
 [nanRows, ~] = find(isnan(data));           % 找到存在NaN的行
 data(nanRows, :) = [];                      % 删除存在NaN的行
-label = ["OLR", "F", "进水COD", "HLR",...   % 数据标签
+label = ["OLR", "进水COD", "HLR",...   % 数据标签
          "ALR", "pH", "温度", "TSS",...
          "进水VFA", "出水COD", "COD去除率(%)", "出水VFA"];
 
 % 画图查看原始数据分布情况
-for j = 1: 11
+for j = 1: 10
     subplot(4, 3, j)
     plot(data(:, j))
     title(label(j))
 end
 
 % 剔除野数据，即3sigma以外数据
-for j = 1: 11
+for j = 1: 10
     miu = mean(data(:, j));         % 平均值
     sigma = std(data(:, j));        % 标准差
     for i = 1: size(data, 1)
@@ -33,7 +33,7 @@ data(nanRows, :) = [];                      % 删除存在NaN的行
 
 % 画图查看预处理后数据分布情况
 figure()
-for j = 1: 11
+for j = 1: 10
     subplot(4, 3, j)
     plot(data(:, j))
     title(label(j))
