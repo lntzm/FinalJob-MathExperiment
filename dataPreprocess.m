@@ -8,7 +8,7 @@ data = xlsread(filename);
 data(nanRows, :) = [];                      % 删除存在NaN的行
 label = ["OLR", "进水COD", "HLR",...   % 数据标签
          "ALR", "pH", "温度", "TSS",...
-         "进水VFA", "出水COD", "COD去除率(%)", "出水VFA"];
+         "进水VFA", "COD去除率(%)", "VFA去除率(%)"];
 
 % 画图查看原始数据分布情况
 for j = 1: 10

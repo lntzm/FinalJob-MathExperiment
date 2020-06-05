@@ -33,7 +33,7 @@ net = train(net,trainInputNorm,trainOutputNorm);
 %导入预测数据Datapredict
 trainPredictNorm = sim(net,trainInputNorm);
 
-%对预测数据反归一化，是否正确？存疑
+%对预测数据反归一化
 trainPredict = mapminmax('reverse',trainPredictNorm,outputPS);
 
 % 对训练集预测结果进行性能评价
@@ -43,7 +43,7 @@ trainPredict = mapminmax('reverse',trainPredictNorm,outputPS);
 %测试集的预测输出
 testPredictNorm = sim(net,testInputNorm);
 
-%对预测数据反归一化，是否正确？存疑
+%对预测数据反归一化
 testPredict = mapminmax('reverse',testPredictNorm,outputPS);
 
 % 对测试集预测结果进行性能评价
