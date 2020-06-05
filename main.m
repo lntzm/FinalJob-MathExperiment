@@ -1,4 +1,4 @@
-clc;clear all;
+clc; close all;
 %% 数据导入及预处理
 filename = "data.xlsx";
 [trainData, testData] = dataPreprocess(filename);   % 得到训练集与测试集
@@ -25,9 +25,7 @@ net.trainParam.epochs = 2000;  %训练次数设置
 net.trainParam.goal = 0.01;  %训练目标设置
 net.trainParam.lr = 0.05;  %学习率设置
 net.trainParam.mc = 0.9;  %动量因子的设置
-%%% xbc: ADD
 net.trainParam.max_fail = 1000;  % 最小确认失败次数
-%%% xbc: END
 
 %<--------------------------------开始训练-------------------------------->%
 
@@ -39,9 +37,7 @@ trainPredictNorm = sim(net,trainInputNorm);
 trainPredict = mapminmax('reverse',trainPredictNorm,outputPS);
 
 % 对训练集预测结果进行性能评价
-%%% lzh: 增加返回值
 [errorTrain, R2Train] = errorAnalysis(trainPredict,trainOutput);
-%%% lzh: END
 
 %% 测试集测试
 %测试集的预测输出
@@ -51,6 +47,4 @@ testPredictNorm = sim(net,testInputNorm);
 testPredict = mapminmax('reverse',testPredictNorm,outputPS);
 
 % 对测试集预测结果进行性能评价
-%%% lzh: 增加返回值
 [errorTest, R2Test] = errorAnalysis(testPredict,testOutput);
-%%% lzh: END
