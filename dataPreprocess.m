@@ -6,6 +6,15 @@ function [trainData, testData] = dataPreprocess(filename)
 data = xlsread(filename);
 [nanRows, ~] = find(isnan(data));           % 找到存在NaN的行
 data(nanRows, :) = [];                      % 删除存在NaN的行
+[zeroRows, ~] = find(data == 0);
+data(zeroRows, :) = [];
+% [CODRows, ~] = find(data(:, 9)<60);
+% data(CODRows, :) = [];
+% [VFARows, ~] = find(data(:, 10)<80);
+% data(VFARows, :) = [];
+% [TSSRows, ~] = find(data(:, 7)>2000);
+% data(TSSRows, :) = [];
+
 label = ["OLR", "进水COD", "HLR",...   % 数据标签
          "ALR", "pH", "温度", "TSS",...
          "进水VFA", "COD去除率(%)", "VFA去除率(%)"];

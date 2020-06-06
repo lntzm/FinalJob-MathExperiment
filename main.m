@@ -19,13 +19,13 @@ testOutputNorm = mapminmax('apply', testOutput, outputPS);
 
 %% 神经网络训练
 %定义BP前馈神经网络
-net = newff(trainInputNorm,trainOutputNorm,5,{'tansig','tansig'},'trainlm');
+net = newff(trainInputNorm,trainOutputNorm,5,{'tansig','tansig'},'traingd');
 %网络参数的设置
-net.trainParam.epochs = 2000;  %训练次数设置
+net.trainParam.epochs = 10000;  %训练次数设置
 net.trainParam.goal = 0.01;  %训练目标设置
 net.trainParam.lr = 0.05;  %学习率设置
 net.trainParam.mc = 0.9;  %动量因子的设置
-net.trainParam.max_fail = 1000;  % 最小确认失败次数
+net.trainParam.max_fail = 100;  % 最大确认失败次数
 
 %<--------------------------------开始训练-------------------------------->%
 
