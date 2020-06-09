@@ -11,11 +11,11 @@ VFAOutput = output(2, :);       % VFA真实数据
 
 % 计算误差
 columns = size(output,2);
-error1 = abs((CODPredict - CODOutput)./CODOutput);  % COD误差
-error1 = mean(error1);                              % COD平均误差
-error2 = abs((VFAPredict - VFAOutput)./VFAOutput);  % VFA误差
-error2 = mean(error2);                              % VFA平均误差
-error = [error1, error2];
+error1 = (CODPredict - CODOutput)./CODOutput;  % COD误差
+error1Mean = mean(abs(error1));                              % COD平均误差
+error2 = (VFAPredict - VFAOutput)./VFAOutput;  % VFA误差
+error2Mean = mean(abs(error2));                              % VFA平均误差
+error = [error1Mean, error2Mean];
 
 % 计算决定系数R^2，R^2越接近1表示拟合越好
 R1 = solveR(CODPredict, CODOutput, columns);
@@ -46,6 +46,24 @@ xlabel('样本')
 ylabel('VFA去除率')
 string = {'测试集出水VFA去除率预测结果对比'; ['R^2=', num2str(R2)]};
 title(string)
+
+% error
+figure()
+subplot(121)
+plot(error1, '.')
+axis([0 350 -0.5 0.5])
+xlabel('样本')
+ylabel('相对误差')
+title('COD去除率误差')
+grid on
+
+subplot(122)
+plot(error2, '.')
+axis([0 350 -0.5 0.5])
+xlabel('样本')
+ylabel('相对误差')
+title('VFA去除率误差')
+grid on
 
 function R = solveR(predict, output, number)
 % solveR 用于计算相关系数R^2
