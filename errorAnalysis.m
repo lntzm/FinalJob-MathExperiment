@@ -1,4 +1,4 @@
-function [error, R] = errorAnalysis(predict, output)
+function [error, R] = errorAnalysis(predict, output, status)
 % 用于计算预测数据与真实数据的误差
 % params predict 预测值
 % params output 实际值
@@ -11,10 +11,10 @@ VFAOutput = output(2, :);       % VFA真实数据
 
 % 计算误差
 columns = size(output,2);
-error1 = (CODPredict - CODOutput)./CODOutput;  % COD误差
-error1Mean = mean(abs(error1));                              % COD平均误差
-error2 = (VFAPredict - VFAOutput)./VFAOutput;  % VFA误差
-error2Mean = mean(abs(error2));                              % VFA平均误差
+error1 = abs((CODPredict - CODOutput)./CODOutput);  % COD误差
+error1Mean = mean(error1);                              % COD平均误差
+error2 = abs((VFAPredict - VFAOutput)./VFAOutput);  % VFA误差
+error2Mean = mean(error2);                              % VFA平均误差
 error = [error1Mean, error2Mean];
 
 % 计算决定系数R^2，R^2越接近1表示拟合越好
@@ -32,7 +32,7 @@ axis([0 columns 0 100])
 legend('真实值','预测值')
 xlabel('样本')
 ylabel('COD去除率')
-string = {'测试集出水COD去除率预测结果对比'; ['R^2=', num2str(R1)]};
+string = {[status, '出水COD去除率预测结果对比']; ['R^2=', num2str(R1)]};
 title(string)
 
 % 绘制VFA预测值与真实值
@@ -44,25 +44,27 @@ axis([0 columns 0 100])
 legend('真实值','预测值')
 xlabel('样本')
 ylabel('VFA去除率')
-string = {'测试集出水VFA去除率预测结果对比'; ['R^2=', num2str(R2)]};
+string = {[status, '出水VFA去除率预测结果对比']; ['R^2=', num2str(R2)]};
 title(string)
 
 % error
 figure()
 subplot(121)
 plot(error1, '.')
-axis([0 350 -0.5 0.5])
+axis([0 350 0 0.5])
 xlabel('样本')
 ylabel('相对误差')
-title('COD去除率误差')
+string  = [status, 'COD去除率误差'];
+title(string)
 grid on
 
 subplot(122)
 plot(error2, '.')
-axis([0 350 -0.5 0.5])
+axis([0 350 0 0.5])
 xlabel('样本')
 ylabel('相对误差')
-title('VFA去除率误差')
+string  = [status, 'VFA去除率误差'];
+title(string)
 grid on
 
 function R = solveR(predict, output, number)

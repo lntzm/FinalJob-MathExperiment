@@ -4,10 +4,10 @@ filename = "data.xlsx";
 [trainData, testData] = dataPreprocess(filename);   % 得到训练集与测试集
 
 % 划分输入数据与输出数据，并转置，用于归一化
-trainInput = trainData(:, 1: 8)';
-trainOutput = trainData(:, 9: 10)';
-testInput = testData(:, 1: 8)';
-testOutput = testData(:, 9: 10)';
+trainInput = trainData(:, 1: 9)';
+trainOutput = trainData(:, 10: 11)';
+testInput = testData(:, 1: 9)';
+testOutput = testData(:, 10: 11)';
 
 % 数据归一化
 [input, inputPS] = mapminmax(trainInput);
@@ -19,13 +19,13 @@ testOutputNorm = mapminmax('apply', testOutput, outputPS);
 
 %% 神经网络训练
 %定义BP前馈神经网络
-net = newff(trainInputNorm,trainOutputNorm,[10,6,3],{'tansig','purelin'},'trainlm');
+net = newff(trainInputNorm,trainOutputNorm,9,{'tansig','purelin'},'trainlm');
 %网络参数的设置
-net.trainParam.epochs = 1000;  %训练次数设置
+net.trainParam.epochs = 200;  %训练次数设置
 net.trainParam.goal = 0.01;  %训练目标设置
-net.trainParam.lr = 0.02;  %学习率设置
+net.trainParam.lr = 0.005;  %学习率设置
 net.trainParam.mc = 0.9;  %动量因子的设置
-net.trainParam.max_fail = 100;  % 最大确认失败次数
+net.trainParam.max_fail = 20;  % 最大确认失败次数
 
 %<--------------------------------开始训练-------------------------------->%
 
@@ -37,7 +37,7 @@ trainPredictNorm = sim(net,trainInputNorm);
 trainPredict = mapminmax('reverse',trainPredictNorm,outputPS);
 
 % 对训练集预测结果进行性能评价
-[errorTrain, R2Train] = errorAnalysis(trainPredict,trainOutput);
+[errorTrain, R2Train] = errorAnalysis(trainPredict,trainOutput, '训练集');
 
 %% 测试集测试
 %测试集的预测输出
@@ -47,4 +47,4 @@ testPredictNorm = sim(net,testInputNorm);
 testPredict = mapminmax('reverse',testPredictNorm,outputPS);
 
 % 对测试集预测结果进行性能评价
-[errorTest, R2Test] = errorAnalysis(testPredict,testOutput);
+[errorTest, R2Test] = errorAnalysis(testPredict,testOutput, '测试集');
