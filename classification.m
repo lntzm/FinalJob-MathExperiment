@@ -13,7 +13,6 @@ for i = 1: length(BadRows)
     labels(BadRows(i)) = 0;
 end
 data(:, [10, 11]) = [];
-
 [trainData, testData, trainLabel, testLabel] = getTrainTest(data, labels);
 
 %% BP神经网络训练
@@ -65,6 +64,9 @@ title('测试集预测结果比较')
 %% classification中用到的一些小函数
 function [trainData, testData, trainLabel, testLabel] = getTrainTest(data, labels)
 % 划分训练集、测试集数据与标签并进行归一化
+% param data 经过预处理后的数据    param labels 数据标签
+% return trainData 训练集样本    return testData 测试集样本
+% return trainLabel 训练集标签    return testLabel 测试集标签
 trainIndex = crossvalind('HoldOut', size(data,1), 0.25);    % 训练集索引
 testIndex = ~trainIndex;                            % 测试集索引
 trainData = data(trainIndex, :);                    % 训练集数据
@@ -79,6 +81,8 @@ end
 
 function predict = fixPredict(predict)
 % 得到预测分类结果，大于等于0.5为正常，小于0.5为异常
+% param predict 网络输出预测值
+% return predict 预测标签
 predict(predict >= 0.5) = 1;
 predict(predict < 0.5) = 0;
 predict = predict';
@@ -86,6 +90,8 @@ end
 
 function accuracy = countDiff(predict, true)
 % 计算分类准确度
+% param predict 预测标签    param true 真实标签
+% return accuracy 准确度
 count = 0;
 for i = 1: length(true)     % 预测值与真实值不相等，count++
     if (predict(i) ~= true(i))
@@ -94,5 +100,3 @@ for i = 1: length(true)     % 预测值与真实值不相等，count++
 end
 accuracy = 1 - (count / length(true));
 end
-
-

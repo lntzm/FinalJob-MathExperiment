@@ -1,19 +1,13 @@
 function [trainData, testData] = dataPreprocess(filename)
 % 数据的预处理 
-% params filename 存放数据的excel文件名
-% return trainData 训练集数据
-% return testData 测试集数据
+% param filename 存放数据的excel文件名
+% return trainData 训练集数据    return testData 测试集数据
 data = xlsread(filename);
 [nanRows, ~] = find(isnan(data));           % 找到存在NaN的行
 data(nanRows, :) = [];                      % 删除存在NaN的行
 [zeroRows, ~] = find(data == 0);
 data(zeroRows, :) = [];
-% [CODRows, ~] = find(data(:, 9)<60);
-% data(CODRows, :) = [];
-% [VFARows, ~] = find(data(:, 10)<40);
-% data(VFARows, :) = [];
-
-string = ["OLR", "进水量", "进水COD", "HLR",...   % 数据标签
+string = ["OLR", "进水量", "进水COD", "HLR",...   % 参数名称
          "ALR", "pH", "温度", "TSS",...
          "进水VFA", "COD去除率(%)", "VFA去除率(%)"];
 

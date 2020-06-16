@@ -37,7 +37,7 @@ trainPredictNorm = sim(net,trainInputNorm);
 trainPredict = mapminmax('reverse',trainPredictNorm,outputPS);
 
 % 对训练集预测结果进行性能评价
-[errorTrain, R2Train] = errorAnalysis(trainPredict,trainOutput, '训练集');
+errorTrain = errorAnalysis(trainPredict,trainOutput, '训练集');
 
 %% 测试集测试
 %测试集的预测输出
@@ -47,4 +47,4 @@ testPredictNorm = sim(net,testInputNorm);
 testPredict = mapminmax('reverse',testPredictNorm,outputPS);
 
 % 对测试集预测结果进行性能评价
-[errorTest, R2Test] = errorAnalysis(testPredict,testOutput, '测试集');
+errorTest = errorAnalysis(testPredict,testOutput, '测试集');
